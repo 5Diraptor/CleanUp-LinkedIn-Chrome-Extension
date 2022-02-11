@@ -1,0 +1,198 @@
+
+/* #######
+   #######       Normalise CSS
+   #####*/
+
+html, head, body, div, a, pre, button, span, img, p, h1, h2, h3, h4, h5, h6 {
+	margin: 0;
+	padding: 0;
+	border: 0px solid #aaa;
+	width: 100%;
+	box-sizing: border-box;
+	height: auto;
+	display: inline-block;
+	float: left;
+	
+	/* brand colors: pink #e7328a, navy #101316, white */
+	/* background-color: #101316; */
+	color: #ffffff;
+	font-size:13px;
+	
+}
+
+@font-face {
+	font-family: SyneMono;
+	font-style: normal;
+	font-weight: 700;
+	src: url(chrome-extension://__MSG_@@extension_id__/assets/SyneMono-Regular.ttf) format("truetype"); 
+}
+
+
+
+/* #######
+   #######       Styling CSS
+   #####*/
+
+html * {
+	font-family: SyneMono, Arial;
+	font-size: 13px;
+}
+
+body {
+	background-color: #101316;
+}
+html, body, .fuselage {
+	width: 320px;
+}
+
+.fuselage {
+	padding: 10px 10px;
+}
+
+#nose {
+	height:60px;
+}
+
+#nose img {
+	object-fit:contain;
+	height:40px;
+	width:40px;
+	border-radius:5px;
+	margin: 0 10px 0 0;
+}
+
+#nose span, #nose a {
+	float: left;
+	display: inline-block;
+	width: 250px;
+}
+
+#nose span {
+	font-size: 20px;
+}
+
+#nose a {
+	padding: 0 0 0 10px;
+}
+
+#chassis {
+	min-height: 50px;
+	margin: 10px;
+	width: calc(100% - 20px);
+	padding: 0;
+}
+
+
+#chassis button {
+	background-color: #101316;
+	padding: 10px;
+}
+
+#chassis button:hover {
+	background-color: #e7328a;
+}
+
+.fuseOptWrapper {
+	border-bottom: 1px solid #ffffff25 ;
+	margin: 3px 0;
+	padding: 0 0 3px;
+}
+
+.fuseOptWrapper:nth-child(1), .fuseOptWrapper:nth-child(8) {
+	border-bottom: 2px solid #ffffff80 ;
+	margin-bottom: 10px;
+}
+
+.fuseOptText, .fuseOptChk {
+	display: inline-block;
+}
+
+.fuseOptText {
+	float: left;
+	width: 90%;
+}
+
+.fuseOptChk {
+	float: right;
+	width: 6%;
+}
+
+
+#tail {
+	padding: 0 0 10px;
+	text-align: center;
+}
+
+#chassis break {
+	width: 100%;
+	height: 1px;
+	margin: 3px 0px 5px;
+	background-color: #bbbbbb;
+	float:left;
+}
+
+	
+.button {
+	width: 80%;
+	margin: 0 10% 10px;
+	border-radius: 5px;
+}
+
+.button a:hover {
+	background-color: #00000050;
+	text-decoration: underline;
+}
+
+.button a {
+	border-radius: 5px;
+	margin: 0;
+	width: 100%;
+	height: 100%;
+	padding: 7px;
+	text-align: center;
+	text-decoration: none;
+	background-color: #00000080;
+}
+
+#ch-tab-wrapper .activetab {
+	background-color: #ffffff30;
+}
+
+#reloadspan {
+	margin: 6px 0;
+}
+
+
+
+
+
+
+
+
+/*  new tabs section */
+
+#ch-tab-wrapper {
+	background-color: #ffffff00;
+}
+
+#ch-tab-wrapper > div {
+	float: left;
+	display: inline-block;
+	width: 98px;
+	text-align: center;
+	padding: 5px;
+	background-color: #ffffff10;
+	border-radius: 5px 5px 0 0;
+}
+
+#ch-tab-wrapper > div:nth-child(2) {
+	margin: 0 3px;
+}
+
+
+#chassis .chassis-body {
+	padding: 10px;
+	border-radius: 0 0 10px 10px;
+	background-color: #ffffff30;
+	display: none;
+}
