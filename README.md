@@ -1,3 +1,8 @@
+<span>
+	<img style="height:60px; width:60px; " src="/img/logo128.png">
+	<img style="height:60px; width:auto; " src="https://github.com/5Diraptor/5Diraptor/raw/main/readme.svg">
+</span>
+
 # CleanUp LinkedIn
 CleanUp LinkedIn is a chrome extension for cleaning your Li feed by removing ads, promoted posts and more.
 
