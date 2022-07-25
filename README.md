@@ -21,5 +21,6 @@ This plugin is fast and easy to use.  Enjoy :)
 
 1. <a href="https://developer.chrome.com/blog/policy-update-2sv/" title="Are Chrome webstore extensions safe">The safest way to get started is to install the extension from the official Google Chrome webstore for free.</a>  These extensions work on all chromium based browsers such as Chrome, Edge, Vivaldi, Brave, Kiwi, and more.
 2. <a href="https://chrome.google.com/webstore/detail/cleanup-linkedin/jpnappbebbldpfefhgfphjpjfcdkonac" title="Get this extension from the Chrome Webstore">Open this link to view in Webstore: https://chrome.google.com/webstore/detail/cleanup-linkedin/jpnappbebbldpfefhgfphjpjfcdkonac</a>
-3. Click "Add to Chrome"
-4. 
+3. Click "Add to Chrome".  You'll get a message to confirm you didn't click on it by accident.
+4. Once installed, you can access it differently depending on your browser.  By default, Google Chrome won't show the extension directly:
+<img src="/screenshots/1-locate-cleanup-linkedin-extension-in-ui.jpg">
