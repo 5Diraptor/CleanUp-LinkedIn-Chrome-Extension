@@ -1,6 +1,6 @@
 <span>
-	<img style="height:60px; width:60px; " src="/img/logo128.png">
-	<img style="height:60px; width:auto; " src="/img/title.svg">
+	<img style="height:70px; width:70px; " src="/img/logo128.png">
+	<img style="height:70px; width:auto; " src="/img/title.svg">
 </span>
 <br><br>
 
