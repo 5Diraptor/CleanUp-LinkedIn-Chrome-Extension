@@ -1,9 +1,9 @@
 <span>
 	<img style="height:60px; width:60px; " src="/img/logo128.png">
-	<img style="height:60px; width:auto; " src="https://github.com/5Diraptor/5Diraptor/raw/main/readme.svg">
+	<img style="height:60px; width:auto; " src="/img/title.svg">
 </span>
+<br><br>
 
-# CleanUp LinkedIn
 CleanUp LinkedIn is a chrome extension for cleaning your Li feed by removing ads, promoted posts and more.
 
 Do you want to stop LinkedIn from showing you so many ads and other clutter?  I built this extension because I wanted to get rid of all the rubbish in my LinkedIn feed.  Here's a few things you can choose to remove from your feed:
