@@ -1,7 +1,7 @@
 {
   "name": "CleanUp LinkedIn",
   "description": "Clean up your LinkedIn feed by getting rid of ads, recommendations and more",
-  "version": "1.1.5",
+  "version": "2.1.1",
   "manifest_version": 3,
   
   "content_scripts": [{
