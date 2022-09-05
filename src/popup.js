@@ -1,18 +1,21 @@
 
+
 function installVars() {
 
-let installed = true;
-let enabled = true;
+	let installed = true;
+	let enabled = true;
 
-let block_ads = true;
-let block_jobs = false;
-let block_addfeed = false;
-let block_events = false;
-let block_freshpps = false;
+	let block_ads = true;
+	let block_jobs = false;
+	let block_addfeed = false;
+	let block_events = false;
+	let block_freshpps = false;
 
-let block_all = false;
+	let block_all = false;
 
-let feed_reminder = true;
+	let feed_reminder = true;
+	
+	let loadEl = document.getElementById("loading")
 
 	chrome.storage.sync.get("installed", ({ installed }) => {
 		if (!installed) {
@@ -26,6 +29,8 @@ let feed_reminder = true;
 			chrome.storage.sync.set({ block_freshpps });
 	
 			chrome.storage.sync.set({ feed_reminder });
+		} else {
+			loadEl.style.display = "none"
 		}
 	});
 	
