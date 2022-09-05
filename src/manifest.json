@@ -9,7 +9,7 @@
         "js": ["autorun.js"]
     }],
   
-  "permissions": ["storage", "activeTab", "background"],
+  "permissions": ["storage", "activeTab"],
   "action": {
     "default_popup": "popup.html",
     "default_icon": {

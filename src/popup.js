@@ -1,4 +1,4 @@
-
+var freshinstall = 0;
 
 function installVars() {
 
@@ -37,6 +37,20 @@ function installVars() {
 	chrome.storage.sync.set({ installed });
 }
 installVars();
+
+
+chrome.storage.onChanged.addListener(function (changes, namespace) {
+	
+	for (let [key, { oldValue, newValue }] of Object.entries(changes)) {
+		console.log(
+			`Storage key "${key}" in namespace "${namespace}" changed.`,
+			`Old value was "${oldValue}", new value is "${newValue}".`
+		);
+		freshinstall++;
+		if (freshinstall >8 ) { document.getElementById("loading").style.display = "none"; } ;
+	}
+});
+
 
 
 function addOptionBox(parentid, checkboxid) {
