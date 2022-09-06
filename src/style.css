@@ -128,7 +128,7 @@ a:hover {
 	padding: 0 0 3px;
 }
 
-.fuseOptWrapper:nth-child(1), .fuseOptWrapper:nth-child(8) {
+.fuseOptWrapper:nth-child(1), .fuseOptWrapper:nth-last-child(2) {
 	border-bottom: 2px solid #ffffff80 ;
 	margin-bottom: 10px;
 }

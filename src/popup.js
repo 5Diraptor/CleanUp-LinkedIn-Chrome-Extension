@@ -6,9 +6,9 @@ function installVars() {
 	let enabled = true;
 
 	let block_ads = true;
-	let block_jobs = false;
-	let block_addfeed = false;
-	let block_events = false;
+	let block_jobs = true;
+	let block_addfeed = true;
+	let block_events = true;
 	let block_freshpps = false;
 
 	let block_all = false;
@@ -40,7 +40,7 @@ installVars();
 
 
 chrome.storage.onChanged.addListener(function (changes, namespace) {
-	
+	window.location.href="popup.html";
 	for (let [key, { oldValue, newValue }] of Object.entries(changes)) {
 		console.log(
 			`Storage key "${key}" in namespace "${namespace}" changed.`,
@@ -138,6 +138,27 @@ chrome.storage.sync.get("block_freshpps", ({ block_freshpps }) => {
 	});
 });
 
+
+chrome.storage.sync.get("block_hiring", ({ block_hiring }) => {
+	addOptionBox("optLiHiring", "optChkblHiring");
+	let checkEl = document.getElementById("optChkblHiring");
+	checkEl.checked = block_hiring;
+	checkEl.addEventListener("change", function() {
+		let block_hiring = checkEl.checked;
+		chrome.storage.sync.set({ block_hiring });
+	});
+});
+
+
+chrome.storage.sync.get("block_startpost", ({ block_startpost }) => {
+	addOptionBox("optLiStartPost", "optChkblStartpost");
+	let checkEl = document.getElementById("optChkblStartpost");
+	checkEl.checked = block_startpost;
+	checkEl.addEventListener("change", function() {
+		let block_startpost = checkEl.checked;
+		chrome.storage.sync.set({ block_startpost });
+	});
+});
 
 
 

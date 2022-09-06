@@ -4,6 +4,9 @@ var blockaddfeed = null;
 var blockevents = null;
 var blockfreshpps = null;
 
+var blockhiring = null;
+var blockstartpost = null;
+
 var blockall = null;
 var reminder = null;
 
@@ -28,6 +31,16 @@ chrome.storage.sync.get("block_events", ({ block_events }) => {
 chrome.storage.sync.get("block_freshpps", ({ block_freshpps }) => {
 	blockfreshpps = block_freshpps;
 });
+
+
+
+chrome.storage.sync.get("block_hiring", ({ block_hiring }) => {
+	blockhiring = block_hiring;
+});
+chrome.storage.sync.get("block_startpost", ({ block_startpost }) => {
+	blockstartpost = block_startpost;
+});
+
 
 
 
