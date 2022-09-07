@@ -88,6 +88,7 @@ a:hover {
 	margin: 10px;
 	width: calc(100% - 20px);
 	padding: 0;
+	position:relative;
 }
 
 
@@ -100,13 +101,34 @@ a:hover {
 	background-color: #e7328a;
 }
 
+#loading {
+	height: 100%;
+    z-index: 50;
+    width: 100%;
+    background-color: rgba(50,50,50,0.9);
+    position: absolute;
+	padding: 120px 0 0;
+}
+
+#loading img {
+	height:50px;
+	width:100%;
+	object-fit:contain;
+	margin: 0 0 25px;
+}
+
+#loading span {
+	text-align: center;
+	font-size: 16pt;
+}
+
 .fuseOptWrapper {
 	border-bottom: 1px solid #ffffff25 ;
 	margin: 3px 0;
 	padding: 0 0 3px;
 }
 
-.fuseOptWrapper:nth-child(1), .fuseOptWrapper:nth-child(8) {
+.fuseOptWrapper:nth-child(1), .fuseOptWrapper:nth-last-child(2) {
 	border-bottom: 2px solid #ffffff80 ;
 	margin-bottom: 10px;
 }
