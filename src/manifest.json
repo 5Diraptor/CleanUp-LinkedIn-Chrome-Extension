@@ -1,11 +1,7 @@
 {
   "name": "CleanUp LinkedIn",
   "description": "Clean up your LinkedIn feed by getting rid of ads, recommendations and more",
-<<<<<<< Updated upstream
-  "version": "2.1.1",
-=======
   "version": "2.2.2",
->>>>>>> Stashed changes
   "manifest_version": 3,
   
   "content_scripts": [{
