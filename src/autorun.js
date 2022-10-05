@@ -91,6 +91,27 @@ chrome.storage.sync.get("enabled", ({ enabled }) => {
 });
 
 
+// Beta - check for changes in DOM tree rather then fire on scrolling
+
+MutationObserver = window.MutationObserver || window.WebKitMutationObserver;
+
+var observer = new MutationObserver(function(mutations, observer) {
+    // fired when a mutation occurs
+    console.log(mutations, observer);
+    // ...
+});
+
+// define what element should be observed by the observer
+// and what types of mutations trigger the callback
+observer.observe(document, {
+  subtree: true,
+  attributes: true
+  //...
+});
+
+
+
+
 	
 function clearAds () {
 	
@@ -128,14 +149,14 @@ function clearAds () {
 				console.log(error);
 			};
 		} else {
-			console.log("ad blocking turned off");
+			// console.log("ad blocking turned off");
 		};
 		
 		if (blockjobs) {
 			
 			try {
 			
-				let postPromo3 = post.querySelector('.feed-shared-text-view'); 
+				let postPromo3 = post.querySelector('.feed-shared-header__text-view'); 
 				let postSub3 = postPromo3.textContent.trim();
 				if (postSub3 == "Jobs recommended for you") {
 					post.style.display = "none";
@@ -145,14 +166,14 @@ function clearAds () {
 				console.log(error);
 			};
 		} else {
-			console.log("jobs blocking turned off");
+			// console.log("jobs blocking turned off");
 		};
 		
 		if (blockaddfeed) {
 			
 			try {
 			
-				let postPromo3 = post.querySelector('.feed-shared-text-view'); 
+				let postPromo3 = post.querySelector('.feed-shared-header__text-view'); 
 				let postSub3 = postPromo3.textContent.trim();
 				if (postSub3 == "Add to your feed") {
 					post.style.display = "none";
@@ -162,7 +183,24 @@ function clearAds () {
 				console.log(error);
 			};
 		} else {
-			console.log("jobs blocking turned off");
+			// console.log("jobs blocking turned off");
+		};
+		
+		if (blockaddfeed) {  // using the blockaddfeed option to also kill off "popular courses" promo
+			
+			try {
+			
+				let postPromo3 = post.querySelector('.feed-shared-header__text-view'); 
+				let postSub3 = postPromo3.textContent.trim();
+				if (postSub3 == "Popular course on LinkedIn Learning") {
+					post.style.display = "none";
+					console.log("cleared an `Add to your feed` post");
+				};
+			} catch (error) {
+				console.log(error);
+			};
+		} else {
+			// console.log("jobs blocking turned off");
 		};
 		
 		if (blockevents) {
@@ -179,7 +217,7 @@ function clearAds () {
 				console.log(error);
 			};
 		} else {
-			console.log("jobs blocking turned off");
+			// console.log("jobs blocking turned off");
 		};
 
 		
@@ -191,7 +229,7 @@ function clearAds () {
 	
 	if (blockhiring) {
 		try {
-			let postPromo3 = post.querySelector('.feed-shared-text-view'); 
+			let postPromo3 = main.querySelector('.feed-shared-text-view'); 
 			let postSub3 = postPromo3.textContent.trim();
 			if (postSub3 == "Add to your feed") {
 				post.style.display = "none";
@@ -201,6 +239,7 @@ function clearAds () {
 			console.log(error);
 		};
 	}
+	
 	if (blockstartpost) {
 		/// alert(blockstartpost);
 		try {
