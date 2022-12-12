@@ -38,11 +38,26 @@ html * {
 	font-size: 13px;
 }
 
+#optionsHtml, #optionsHtml > body {
+	width:100%;
+	height:100%;
+	border: 0;
+}
+
+#optionsHtml > body {
+	max-width:700px;
+}
+#optionsHtml .fuselage {
+	width:100%;
+}
+
 body {
 	background-color: #101316;
+	border: 1px solid #0a66c2;
 }
+
 html, body, .fuselage {
-	width: 320px;
+	width: 322px;
 }
 
 p {
@@ -72,11 +87,15 @@ a:hover {
 #nose span, #nose a {
 	float: left;
 	display: inline-block;
-	width: 250px;
+	width: calc(100% - 50px);
 }
 
 #nose span {
 	font-size: 20px;
+}
+
+#nose .subtitle {
+	font-size: 12px;
 }
 
 #nose a {
@@ -85,7 +104,7 @@ a:hover {
 
 #chassis {
 	min-height: 50px;
-	margin: 10px;
+	margin: 0px 10px;
 	width: calc(100% - 20px);
 	padding: 0;
 	position:relative;
@@ -128,10 +147,6 @@ a:hover {
 	padding: 0 0 3px;
 }
 
-.fuseOptWrapper:nth-child(1), .fuseOptWrapper:nth-last-child(2) {
-	border-bottom: 2px solid #ffffff80 ;
-	margin-bottom: 10px;
-}
 
 .fuseOptText, .fuseOptChk {
 	display: inline-block;
@@ -139,17 +154,27 @@ a:hover {
 
 .fuseOptText {
 	float: left;
-	width: 90%;
+	width: calc(100% - 25px);
+	position: relative;
+	display: inline-block;
+	margin: 4px 0;
+	padding: 0 5px;
+	height:14px;
+	font-size: 14px;
 }
 
-.fuseOptChk {
-	float: right;
-	width: 6%;
+.fuseOptChk, .fuseOptRdo {
+	float: left;
+	display: inline-block;
+	margin: 4px 5px;
+	height: 14px;
+	width: 14px;
+	/* width: 6%; */
 }
 
 
 #tail {
-	padding: 0 0 10px;
+	padding: 7px 0 10px;
 	text-align: center;
 }
 
@@ -211,15 +236,16 @@ a:hover {
 #ch-tab-wrapper > div {
 	float: left;
 	display: inline-block;
-	width: 98px;
+	width: 148px;
 	text-align: center;
 	padding: 5px;
 	background-color: #ffffff10;
 	border-radius: 5px 5px 0 0;
+	margin:0 0 0 4px;
 }
 
-#ch-tab-wrapper > div:nth-child(2) {
-	margin: 0 3px;
+#ch-tab-wrapper > div:nth-child(1) {
+	margin: 0;
 }
 
 
@@ -228,4 +254,35 @@ a:hover {
 	border-radius: 0 0 10px 10px;
 	background-color: #ffffff30;
 	display: none;
+}
+
+#chassis .chassis-wrapper {
+	padding: 10px;
+	border-radius: 10px;
+	background-color: #ffffff30;
+}
+
+
+.icon {
+    width: 10px;
+    height: 10px;
+	margin: 0 4px;
+	float:unset;
+}
+
+#optLevel div > p, #optEnable div > p {
+	display: none;
+	padding: 10px;
+	color: #e0e0e0;
+	font-size: 12px;
+	border: 1px solid white;
+	position:absolute;
+	z-index: 5;
+	background:black;
+	width:auto;
+	max-width:80%;
+}
+
+#optLevel div, #optEnable div {
+	height: 0;
 }

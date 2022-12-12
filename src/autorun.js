@@ -1,63 +1,130 @@
+// get user defined cleanup level
+var cLevel = null;
+
+// list of vars for blocking feed items (in the loop)
 var blockads = null;
 var blockjobs = null;
 var blockaddfeed = null;
 var blockevents = null;
 var blockfreshpps = null;
+var blocksavedcourse = null;
 
+// list of vars for blocking static items
 var blockhiring = null;
 var blockstartpost = null;
+var blocklinews = null;
+var blocktrypremium = null;
 
 var blockall = null;
 var reminder = null;
 
 
+// set up the vars according to the user settings
+chrome.storage.sync.get("level", ({ level }) => {
+	cLevel = level;
 
-chrome.storage.sync.get("block_ads", ({ block_ads }) => {
-	blockads = block_ads;
+	if (cLevel == "custom" || cLevel == null) {
+														
+		chrome.storage.sync.get("block_ads", ({ block_ads }) => { blockads = block_ads; });
+		chrome.storage.sync.get("block_jobs", ({ block_jobs }) => { blockjobs = block_jobs; });
+		chrome.storage.sync.get("block_addfeed", ({ block_addfeed }) => { blockaddfeed = block_addfeed; });
+		chrome.storage.sync.get("block_events", ({ block_events }) => { blockevents = block_events; });
+		chrome.storage.sync.get("block_freshpps", ({ block_freshpps }) => { blockfreshpps = block_freshpps; });
+		
+		chrome.storage.sync.get("block_hiring", ({ block_hiring }) => { blockhiring = block_hiring; });
+		chrome.storage.sync.get("block_startpost", ({ block_startpost }) => { blockstartpost = block_startpost; });
+		
+		chrome.storage.sync.get("block_all", ({ block_all }) => { blockall = block_all; });
+
+		chrome.storage.sync.get("feed_reminder", ({ feed_reminder }) => { reminder = feed_reminder; });
+	} else if (cLevel == "basic") {
+		blockads = true;
+		blockjobs = false;
+		blockaddfeed = true;
+		blockevents = false;
+		blockfreshpps = false;
+		blocksavedcourse = false;
+
+		blockhiring = true;
+		blockstartpost = false;
+		blocklinews = false;
+		blocktrypremium = false;
+
+		blockall = false;
+		reminder = true;
+	} else if (cLevel == "extreme") {
+		blockads = true;
+		blockjobs = true;
+		blockaddfeed = true;
+		blockevents = true;
+		blockfreshpps = true;
+		blocksavedcourse = true;
+
+		blockhiring = true;
+		blockstartpost = true;
+		blocklinews = true;
+		blocktrypremium = true;
+
+		blockall = false;
+		reminder = true;
+	} else if (cLevel == "space") {
+		blockads = true;
+		blockjobs = true;
+		blockaddfeed = true;
+		blockevents = true;
+		blockfreshpps = true;
+		blocksavedcourse = true;
+
+		blockhiring = true;
+		blockstartpost = false;
+		blocklinews = true;
+		blocktrypremium = true;
+
+		blockall = true;
+		reminder = false;
+	}
+	
+	//console.log("CleanUp LinkedIn starting now2...")
+	//console.info(blockads)
+	
+	
 });
 
-chrome.storage.sync.get("block_jobs", ({ block_jobs }) => {
-	blockjobs = block_jobs;
-});
 
-chrome.storage.sync.get("block_addfeed", ({ block_addfeed }) => {
-	blockaddfeed = block_addfeed;
-});
-
-chrome.storage.sync.get("block_events", ({ block_events }) => {
-	blockevents = block_events;
-});
-
-chrome.storage.sync.get("block_freshpps", ({ block_freshpps }) => {
-	blockfreshpps = block_freshpps;
-});
+console.log("CleanUp LinkedIn starting now...")
+// console.info(blockads)
 
 
-
-chrome.storage.sync.get("block_hiring", ({ block_hiring }) => {
-	blockhiring = block_hiring;
-});
-chrome.storage.sync.get("block_startpost", ({ block_startpost }) => {
-	blockstartpost = block_startpost;
-});
-
-
-
-
-chrome.storage.sync.get("block_all", ({ block_all }) => {
-	blockall = block_all;
-});
-
-chrome.storage.sync.get("feed_reminder", ({ feed_reminder }) => {
-	reminder = feed_reminder;
-});
-
-
+// var valuesdump = [cLevel, blockads, blockjobs, blockaddfeed, blockevents, blockfreshpps, blockhiring, blockstartpost, blockall, reminder];
+// console.info(valuesdump)
 
 
 
 chrome.storage.sync.get("enabled", ({ enabled }) => {
 	if (enabled) {
+		
+		
+		// Beta - check for changes in DOM tree rather then fire on scrolling - https://stackoverflow.com/questions/2844565/is-there-a-javascript-jquery-dom-change-listener
+
+		MutationObserver = window.MutationObserver || window.WebKitMutationObserver;
+
+		var observer = new MutationObserver(function(mutations, observer) {
+			// fired when a mutation occurs
+			// console.log(mutations, observer);
+			console.log("CleanUp LinkedIn: DOM mutated")
+			clearAds();
+			// ...
+		});
+
+		// define what element should be observed by the observer
+		// and what types of mutations trigger the callback
+		observer.observe(document, {
+		  subtree: true,
+		  attributes: true
+		  //...
+		});
+
+
 		if (blockall) {
 			let main = document.getElementById("main");
 			main.children[1].style.display = "none";
@@ -91,141 +158,170 @@ chrome.storage.sync.get("enabled", ({ enabled }) => {
 });
 
 
-// Beta - check for changes in DOM tree rather then fire on scrolling
 
-MutationObserver = window.MutationObserver || window.WebKitMutationObserver;
-
-var observer = new MutationObserver(function(mutations, observer) {
-    // fired when a mutation occurs
-    console.log(mutations, observer);
-    // ...
-});
-
-// define what element should be observed by the observer
-// and what types of mutations trigger the callback
-observer.observe(document, {
-  subtree: true,
-  attributes: true
-  //...
-});
 
 
 
 
 	
 function clearAds () {
+	console.log("CleanUp LinkedIn: Analysing new posts and removing if not wanted")
+	var valuesdump = [cLevel, blockads, blockjobs, blockaddfeed, blockevents, blockfreshpps, blockhiring, blockstartpost, blockall, reminder];
+	// console.info(valuesdump)
+
+	if (cLevel == null || reminder == null) {
+		console.log("CleanUp Linkedin: Exiting as Chrome Storage not ready yet")
+		return
+	};
 	
+	if (blockfreshpps) {
+		blockfreshperspectives();
+		window.addEventListener("load", blockfreshperspectives);
+	};
+	if (blockstartpost) {
+		window.addEventListener("load", blockstartnewpost);
+	};
+	
+	// ==================================================================
+	// Setup
+	// define a bunch of standard variables and suchlike
 	let main = document.getElementById("main");
-	let allLiAds = document.getElementsByClassName("feed-shared-update-v2");
-	for (var i = 0; i < allLiAds.length; i++) {
-		
-		let post = allLiAds.item(i);
-		// alert("ads: "+ads+" // jobs: "+jobs);
-		if (blockads) {
-			try {
-				let postPromo1 = post.querySelector('.feed-shared-actor__description'); 
-				let postTitle1 = post.querySelector('.feed-shared-actor__title');
-				postTitle1 = postTitle1.textContent.trim();
-				let postSub1 = postPromo1.textContent.trim();
-				if (postSub1 == "Promoted") {
-					post.style.display = "none";
-					console.log("cleared an ad from: " + postTitle1);
-				};
-			} catch (error) {
-				console.log(error);
-			};
+	let posts = main.getElementsByClassName("scaffold-finite-scroll__content")[0] // list of post elements which makes up the feed
+	// console.info(posts.children[0])
+	
+	// ==================================================================
+	// FEED REMINDER
+	// run the reminder function - this adds in a reminder if conditions are met
+	var url = window.location.href;
+	var q = "/feed/";
+	var remEl = document.getElementById("cleanUp_LinkedIn_feed_reminder_wrapper");
+	if (reminder && url.search(q) > 0 && remEl != null) {
+		let reminderEl = '<div id="cleanUp_LinkedIn_feed_reminder_wrapper" class="launchpad-v2 artdeco-card mb2" style="border-radius: 10px; padding: 15px; background-color: white; margin: 0 0 10px;"><img src="chrome-extension://nnnfnopmhgdpnnlbpnjkplimibbihdop/assets/logo128.png" style="height: 24px; width:24px; margin:0 5px; float:left; object-fit:contain;">Enjoy your uncluttered feed, courtesy of CleanUp LinkedIn!</div>';
+	
+		// main.children[0].insertAdjacentHTML('afterbegin', reminderEl);
+		main.insertAdjacentHTML('afterbegin', reminderEl);
+	};
+	
+	
+	// ==================================================================
+	// TRY PREMIUM REMOVE
+	// remove the ad to try premium
+	if (blocktrypremium) {
+		// console.log("try premium")
+		let sidebar = document.querySelector('.scaffold-layout__sidebar')
+		// console.info(sidebar)
+		if (sidebar.children[0].children[2]) {
 			
-			try {
+			let textTest = sidebar.children[0].children[2].textContent.trim()
+			
+			if (textTest.search("Premium") >= 0) {
+				let premSB = sidebar.children[0].children[2]
+				console.log(premSB)
+				let myItems = sidebar.children[0].children[3]
+				console.log(myItems)
+				let savedItems = myItems.cloneNode(true)
+				savedItems.children[0].textContent = "Saved Items"
+				savedItems.href = "/my-items/saved-posts/"
+				myItems.after(savedItems)
 				
-				let postPromo2 = post.querySelector('.feed-shared-actor__sub-description'); 
-				let postTitle2 = post.querySelector('.feed-shared-actor__title');
-				postTitle2 = postTitle2.textContent.trim();
-				let postSub2 = postPromo2.textContent.trim();
-				if (postSub2 == "Promoted") {
-					post.style.display = "none";
-					console.log("cleared an ad from: " + postTitle2);
-				};
-			} catch (error) {
-				console.log(error);
-			};
+				// console.info(premSB)
+				premSB.remove()
+				console.log("Removed Try Premium ad on sidebar")
+			}
+		}
+	};
+	
+	// ==================================================================
+	// POST LOOP
+	// loop through posts and remove if they're a blocked element
+	
+	// console.log("return post")
+	if (!posts) {
+		console.log("CleanUp LinkedIn: Exiting as posts element not ready yet")
+		return
+	};
+	// console.log("return postss")
+	// let allLiAds = document.getElementsByClassName("feed-shared-update-v2");
+	// for (var i = 0; i < allLiAds.length; i++) {
+	for (var i = 0; i < posts.children.length; i++) {
+		
+		let post = posts.children[i];
+		// console.info(post)
+		
+		if (blockall) {
+			post.remove()
+			continue;
+		};
+		
+		let allText = post.textContent.replace(/\s/g,'')
+				
+		// if post has already been evaluated, or there is no text, skip this post
+		if (allText == "" || post.classList.contains("evaluated_by_CleanUp_LinkedIn")) {
+			continue;
+		} else {
+			post.classList.add("evaluated_by_CleanUp_LinkedIn")
+		};
+		
+		console.log("CleanUp LinkedIn: CleanUp LinkedIn is analysing the following post")
+		console.info(post)
+		
+		allText = post.textContent.replace(/\s/g,' ')
+		let textList = allText.replace(/\s{2,}/g,'[|]')
+		textList = textList.split('[|]')
+		
+		console.info(textList)
+
+		if (! Array.isArray(textList)) {
+			continue;
+		}
+		
+		// Remove posts that are "Promoted"
+		if (blockads && textList.includes('Promoted')) {
+			post.remove()
+			console.log("CleanUp LinkedIn: removed a post")
 		} else {
 			// console.log("ad blocking turned off");
 		};
 		
-		if (blockjobs) {
-			
-			try {
-			
-				let postPromo3 = post.querySelector('.feed-shared-header__text-view'); 
-				let postSub3 = postPromo3.textContent.trim();
-				if (postSub3 == "Jobs recommended for you") {
-					post.style.display = "none";
-					console.log("cleared a `Jobs recommended` post");
-				};
-			} catch (error) {
-				console.log(error);
-			};
+		// Remove posts that are "Start your saved course"
+		if (blocksavedcourse && textList.includes('Start your saved course')) {
+			post.remove()
+			console.log("CleanUp LinkedIn: removed a post")
 		} else {
-			// console.log("jobs blocking turned off");
+			// console.log("ad blocking turned off");
 		};
 		
-		if (blockaddfeed) {
-			
-			try {
-			
-				let postPromo3 = post.querySelector('.feed-shared-header__text-view'); 
-				let postSub3 = postPromo3.textContent.trim();
-				if (postSub3 == "Add to your feed") {
-					post.style.display = "none";
-					console.log("cleared an `Add to your feed` post");
-				};
-			} catch (error) {
-				console.log(error);
-			};
+		// Remove posts that are "Jobs recommended for you"
+		if (blockjobs && textList.includes('Jobs recommended for you')) {
+			post.remove()
+			console.log("CleanUp LinkedIn: removed a post")
 		} else {
-			// console.log("jobs blocking turned off");
+			// console.log("ad blocking turned off");
 		};
 		
-		if (blockaddfeed) {  // using the blockaddfeed option to also kill off "popular courses" promo
-			
-			try {
-			
-				let postPromo3 = post.querySelector('.feed-shared-header__text-view'); 
-				let postSub3 = postPromo3.textContent.trim();
-				if (postSub3 == "Popular course on LinkedIn Learning") {
-					post.style.display = "none";
-					console.log("cleared an `Add to your feed` post");
-				};
-			} catch (error) {
-				console.log(error);
-			};
+		// Remove posts that are "Recommended for you"
+		if (blockaddfeed && textList.includes('Recommended for you')) {
+			post.remove()
+			console.log("CleanUp LinkedIn: removed a post")
 		} else {
-			// console.log("jobs blocking turned off");
+			// console.log("ad blocking turned off");
 		};
 		
-		if (blockevents) {
-			
-			try {
-			
-				let postPromo3 = post.querySelector('.feed-shared-text-view'); 
-				let postSub3 = postPromo3.textContent.trim();
-				if (postSub3 == "Events recommended for you") {
-					post.style.display = "none";
-					console.log("cleared an `Events recommended` post");
-				};
-			} catch (error) {
-				console.log(error);
-			};
+		// Remove posts that are "Events recommended for you"
+		if (blockevents && textList.includes('Events recommended for you')) {
+			post.remove()
+			console.log("CleanUp LinkedIn: removed a post")
 		} else {
-			// console.log("jobs blocking turned off");
+			// console.log("ad blocking turned off");
 		};
-
 		
-		post.classList.remove("feed-shared-update-v2");
-		post.style.margin = "0 0 8px";
-		post.style.padding = "0";
-
+		continue;
+		
+		// post.classList.remove("feed-shared-update-v2");
+		// post.style.margin = "0 0 8px";
+		// post.style.padding = "0";
 	};
+	
 	
 	if (blockhiring) {
 		try {
@@ -236,10 +332,10 @@ function clearAds () {
 				console.log("cleared an `Are you hiring` post");
 			};
 		} catch (error) {
-			console.log(error);
+			// console.log(error);
 		};
 	}
-	
+	/*
 	if (blockstartpost) {
 		/// alert(blockstartpost);
 		try {
@@ -255,20 +351,21 @@ function clearAds () {
 		} catch (error) {
 			console.log(error);
 		};
-	}
+	}*/
 	
- };
+};
 
 
 function feedReminder() {
 	var url = window.location.href;
 	var q = "/feed/";
-	
-	if (reminder && url.search(q) > 0) {
-		let reminderEl = '<div style="border-radius: 10px; padding: 15px; background-color: white; margin: 0 0 10px;">Enjoy your uncluttered feed, courtesy of CleanUp LinkedIn!</div>';
+	var remEl = document.getElementById("cleanUp_LinkedIn_feed_reminder_wrapper");
+	if (reminder && url.search(q) > 0 && remEl != null) {
+		let reminderEl = '<div id="cleanUp_LinkedIn_feed_reminder_wrapper" class="launchpad-v2 artdeco-card mb2" style="border-radius: 10px; padding: 15px; background-color: white; margin: 0 0 10px;"><img src="chrome-extension://nnnfnopmhgdpnnlbpnjkplimibbihdop/assets/logo128.png" style="height: 24px; width:24px; margin:0 5px; float:left; object-fit:contain;">Enjoy your uncluttered feed, courtesy of CleanUp LinkedIn!</div>';
 		let main = document.getElementById("main");
 	
-		main.children[0].insertAdjacentHTML('afterbegin', reminderEl);
+		// main.children[0].insertAdjacentHTML('afterbegin', reminderEl);
+		main.insertAdjacentHTML('afterbegin', reminderEl);
 	};
 }
 
@@ -281,21 +378,18 @@ function blockfreshperspectives() {
 		let prefeed = freshEl.item(i);
 		prefeed.style.display = "none";
 	}
-	
-	
-
 }
 
 function blockstartnewpost() {
-		try {
-			let block = main.getElementsByClassName("share-box-feed-entry__closed-share-box")[0];
-			console.info(block);
-			block.style.display = "none";
-		} catch (error) {
-			console.log(error);
-		};
+	try {
+		let block = main.getElementsByClassName("share-box-feed-entry__closed-share-box")[0];
+		console.info(block);
+		block.style.display = "none";
+	} catch (error) {
+		console.log(error);
+	};
 }
 
 
-window.addEventListener("load", feedReminder);
+// window.addEventListener("load", feedReminder);
 

@@ -1,3 +1,5 @@
+
+
 let enabled = true;
 let block_ads = true;
 let block_jobs = false;

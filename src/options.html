@@ -1,7 +1,8 @@
 <!DOCTYPE html>
-<html>
+<html id="optionsHtml">
 	<head>
 		<link rel="stylesheet" href="style.css?ver=1">
+		<script src="js/install.js"></script>
 	</head>
 	<body>
 	
@@ -10,6 +11,7 @@
 		<div class="fuselage" id="nose">
 			<img src="/assets/logo128.png">
 			<span>CleanUp LinkedIn</span>
+			<a href="https://5diraptor.com" target="_blank">Created by 5Diraptor</a>
 		</div>
 	
 		<!-- This is the start of the main body -->
@@ -20,32 +22,36 @@
 				<span>Just a moment...</span>
 			</div>
 		
-			<div id="ch-tab-wrapper">
-				<div id="ch-tab-s">
-					Settings
-				</div>
-				<div id="ch-tab-a">
-					About
-				</div>
-				<div id="ch-tab-h">
-					Help
-				</div>
-			</div>
 			
-			<div id="chassis-s" class="chassis-body">
+			<div id="chassis-o" class="chassis-wrapper">
 				<div class="fuseOptWrapper" id="optEnable">
-					<span class="fuseOptText">
-						Allow CleanUp to run?
-					</span>
+					<span class="fuseOptText">Clean my LinkedIn feed <img class="icon helpTextTrigger" id="jsEnableImg" src="/assets/qm.svg"></span>
+					<div><p class="helpText" id="jsEnableHelp">Enable or disable LinkedIn feed cleaning.</p></div>
 				</div>
-				<div class="fuseOptWrapper" id="optLiAlert">
-					<span class="fuseOptText">
-						Show in-feed reminder?
-					</span>
+				
+				<span>CleanUp Level:</span>
+				<div class="fuseOptWrapper" id="optLevel">
+					<input class="fuseOptRdo" value="basic" id="optLevel_basic" type="radio" name="cleanLevel">
+					<span class="fuseOptText">Basic CleanUp <img class="icon helpTextTrigger" id="jsBasicImg" src="/assets/qm.svg"></span>
+					<div><p class="helpText" id="jsBasicHelp">Basic level only removes promoted posts, ads, & fresh perspectives.</p></div>
+					
+					<input class="fuseOptRdo" value="extreme" id="optLevel_extreme" type="radio" name="cleanLevel">
+					<span class="fuseOptText">Extreme CleanUp <img class="icon helpTextTrigger" id="jsExtremeImg" src="/assets/qm.svg"></span>
+					<div><p class="helpText" id="jsExtremeHelp">Extreme level removes all ads and promoted posts, and also removes all in-feed "suggestions" such as jobs and events you may be interested in.</p></div>
+					
+					<input class="fuseOptRdo" value="space" id="optLevel_space" type="radio" name="cleanLevel">
+					<span class="fuseOptText">Free space <img class="icon helpTextTrigger" id="jsFreeImg" src="/assets/qm.svg"></span>
+					<div><p class="helpText" id="jsFreeHelp">Get rid of absolutely everything, leaving you a clean fresh space to write in.</p></div>
+					
+					<input class="fuseOptRdo" value="custom" id="optLevel_custom" type="radio" name="cleanLevel">
+					<span class="fuseOptText">Custom CleanUp <img class="icon helpTextTrigger" id="jsCustomImg" src="/assets/qm.svg"></span>
+					<div><p class="helpText" id="jsCustomHelp">Use your custom settings.  Use the link below to view and amend these.</p></div>
 				</div>
+				
+				<span>Settings for "Custom" cleanup<span>
 				<div class="fuseOptWrapper" id="optLiEntire">
 					<span class="fuseOptText">
-						Clean entire feed?
+						Clean entire feed? (all posts)
 					</span>
 				</div>
 				<div class="fuseOptWrapper" id="optLiPromo">
@@ -83,28 +89,30 @@
 						Clean up 'Start a post'?
 					</span>
 				</div>
-				<span id="reloadspan">Reload Linkedin to apply settings.</span>
-			</div>
-			
-			<div id="chassis-a" class="chassis-body">
-					<p>If you're enjoying CleanUp LinkedIn, please feel free to like or a share!</p>
-					<div class="button">
-						<a target="_blank" href="https://www.linkedin.com/shareArticle?mini=true&url=https://chrome.google.com/webstore/detail/5d-clean-up-linkedin/jpnappbebbldpfefhgfphjpjfcdkonac">Share to LinkedIn?</a>
-					</div>
-					<div class="button">
-						<a target="_blank" href="https://chrome.google.com/webstore/detail/5d-clean-up-linkedin/jpnappbebbldpfefhgfphjpjfcdkonac">...or leave a review?</a>
-					</div>
-					
-					<span>Version: <text id="versioning"></text></span>
-					<a href="https://5diraptor.com/cleanup-linkedin-chrome-extension/" target="_blank">Privacy Policy</a>
-			</div>
-			
-			<div id="chassis-h" class="chassis-body">
-					<p>Contact support through Chrome web store:</p>
-					<div class="button">
-						<a target="_blank" href="https://chrome.google.com/webstore/detail/5d-clean-up-linkedin/jpnappbebbldpfefhgfphjpjfcdkonac">Google Chrome Web Store</a>
-					</div>
-					<p>Soon I'll be adding error reports and more options!  watch this space... </p>
+				
+				<div class="fuseOptWrapper" id="optLiAlert">
+					<span class="fuseOptText">
+						Show in-feed reminder?
+					</span>
+				</div>
+				
+				
+				<p>If you're enjoying CleanUp LinkedIn, please like or a share!</p>
+				<div class="button">
+					<a target="_blank" href="https://www.linkedin.com/shareArticle?mini=true&url=https://chrome.google.com/webstore/detail/5d-clean-up-linkedin/jpnappbebbldpfefhgfphjpjfcdkonac">Share to LinkedIn?</a>
+				</div>
+				<div class="button">
+					<a target="_blank" href="https://chrome.google.com/webstore/detail/5d-clean-up-linkedin/jpnappbebbldpfefhgfphjpjfcdkonac">...or leave a review?</a>
+				</div>
+				
+				<p>Contact support through Chrome web store:</p>
+				<div class="button">
+					<a target="_blank" href="https://chrome.google.com/webstore/detail/5d-clean-up-linkedin/jpnappbebbldpfefhgfphjpjfcdkonac">Google Chrome Web Store</a>
+				</div>
+				
+				
+				<a href="https://5diraptor.com/cleanup-linkedin-chrome-extension/" target="_blank">Privacy Policy</a>
+				<span>Version: <text id="versioning"></text></span>
 			</div>
 		</div>
 		
@@ -112,8 +120,10 @@
 		
 	
 		<div class="fuselage" id="tail">
-			<a href="https://5diraptor.com" target="_blank">Created by 5Diraptor</a>
+			
 		</div>
-		<script src="popup.js"></script>
+		<script src="js/options.js"></script>
 	</body>
 </html>
+
+
