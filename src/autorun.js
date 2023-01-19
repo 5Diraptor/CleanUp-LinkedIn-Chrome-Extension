@@ -315,6 +315,13 @@ function clearAds () {
 			// console.log("ad blocking turned off");
 		};
 		
+		if (blockads && (textList.includes('LinkedIn Ads') || textList.includes('Optimize for ad results') || textList.includes('Unlock more insights') )) {
+			post.remove()
+			console.log("CleanUp LinkedIn: removed a post")
+		} else {
+			// console.log("ad blocking turned off");
+		};
+		
 		continue;
 		
 		// post.classList.remove("feed-shared-update-v2");
