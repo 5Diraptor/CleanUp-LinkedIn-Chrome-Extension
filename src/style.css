@@ -221,7 +221,12 @@ a:hover {
 }
 
 
-
+#ch-hit-count {
+	padding:10px;
+	background-color:#ffffff30;
+	margin:5px 0 10px;
+	border-radius: 5px;
+}
 
 
 

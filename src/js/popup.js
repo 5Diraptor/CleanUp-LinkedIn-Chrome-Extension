@@ -3,6 +3,7 @@ chrome.storage.sync.get("installed", ({ installed }) => {
 	// Unless the popup is installed, don't run anything ===========================
 	if (installed) { 
 		
+		
 		// Set up a bunch of standard variables ====================================
 		
 		var freshinstall = 0,
@@ -19,36 +20,19 @@ chrome.storage.sync.get("installed", ({ installed }) => {
 		
 		chrome.storage.sync.get("enabled", ({ enabled }) => { optEnabled = enabled; });
 		chrome.storage.sync.get("level", ({ level }) => { optLevel = level; });
-
-
-		
-		// =========================================================================
-
-			
-		/*
-			// default values on first install
-			let enabled = true;
-			let feed_reminder = true;
-			let level = "basic";
-
-			// default custom in-feed values for first install
-			let block_ads = true;
-			let block_jobs = false;
-			let block_addfeed = false;
-			let block_events = false;
-			let block_freshpps = false;
-			
-			// default custom out of feed values for first install
-			let block_all = false;
-			let block_hiring = true;
-		*/
-
-
+		chrome.storage.sync.get("clean", ({ clean }) => {
+			console.log("cleaning");
+			console.info(clean);
+		});
+		chrome.storage.sync.get("hits", ({ hits }) => {
+			console.log("hits");
+			console.info(hits);
+		});
 		// =========================================================================
 		
 		
 		
-		// Listen to changes to chrome storage and update window if don't match ====
+		// Listen to changes to chrome storage and update window if mismatched =====
 		
 		chrome.storage.onChanged.addListener(function (changes, namespace) {
 			
@@ -88,12 +72,11 @@ chrome.storage.sync.get("installed", ({ installed }) => {
 			};
 		});
 		
-		
 		// =========================================================================
 		
 		
 		
-		// Add option boxes onces the chrome storgae var has loaded ================
+		// Add option boxes onces the chrome storage var has loaded ================
 
 		function addOptionBox(parentid, checkboxid) {
 			var parent = document.getElementById(parentid);
@@ -105,8 +88,6 @@ chrome.storage.sync.get("installed", ({ installed }) => {
 			//parent.insertBefore(newInput, parent.firstChild);
 			parent.prepend(newInput);
 		};
-
-
 
 		chrome.storage.sync.get("enabled", ({ enabled }) => {
 			addOptionBox("optEnable", "optChkEnable");
@@ -213,6 +194,17 @@ chrome.storage.sync.get("installed", ({ installed }) => {
 		// =========================================================================
 
 	}
+	
+	
+	// Script for showing and hiding the help text popups ====================
+	
+	var hitEl = document.getElementById("ch-hit-count");
+	chrome.storage.sync.get("hits", ({ hits }) => {
+		hitEl.innerText = hits+" items have been removed!";
+	});
+	
+	// =========================================================================
+	
 });
 
 

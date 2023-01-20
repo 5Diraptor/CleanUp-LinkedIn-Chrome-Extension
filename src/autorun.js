@@ -1,5 +1,24 @@
 // get user defined cleanup level
 var cLevel = null;
+var CULhits = null;
+var CULclean = null;
+
+chrome.storage.sync.get("clean", ({ clean }) => {
+	CULclean = clean;
+	console.log("Clean ");
+	console.info(CULclean);
+});
+chrome.storage.sync.get("hits",  ({ hits  }) => {
+	CULhits = hits;
+	console.log("Hits");
+	console.info(CULhits);
+})
+
+
+window.addEventListener('locationchange', function () {
+    console.log('CleanUp Linkedin: location changed!');
+});
+
 
 // list of vars for blocking feed items (in the loop)
 var blockads = null;
@@ -111,7 +130,7 @@ chrome.storage.sync.get("enabled", ({ enabled }) => {
 		var observer = new MutationObserver(function(mutations, observer) {
 			// fired when a mutation occurs
 			// console.log(mutations, observer);
-			console.log("CleanUp LinkedIn: DOM mutated")
+			console.log("CleanUp LinkedIn: DOM mutated, checking for unwanted items.")
 			clearAds();
 			// ...
 		});
@@ -278,6 +297,7 @@ function clearAds () {
 		// Remove posts that are "Promoted"
 		if (blockads && textList.includes('Promoted')) {
 			post.remove()
+			CULhits++;
 			console.log("CleanUp LinkedIn: removed a post")
 		} else {
 			// console.log("ad blocking turned off");
@@ -286,6 +306,7 @@ function clearAds () {
 		// Remove posts that are "Start your saved course"
 		if (blocksavedcourse && textList.includes('Start your saved course')) {
 			post.remove()
+			CULhits++;
 			console.log("CleanUp LinkedIn: removed a post")
 		} else {
 			// console.log("ad blocking turned off");
@@ -294,6 +315,7 @@ function clearAds () {
 		// Remove posts that are "Jobs recommended for you"
 		if (blockjobs && textList.includes('Jobs recommended for you')) {
 			post.remove()
+			CULhits++;
 			console.log("CleanUp LinkedIn: removed a post")
 		} else {
 			// console.log("ad blocking turned off");
@@ -302,6 +324,7 @@ function clearAds () {
 		// Remove posts that are "Recommended for you"
 		if (blockaddfeed && textList.includes('Recommended for you')) {
 			post.remove()
+			CULhits++;
 			console.log("CleanUp LinkedIn: removed a post")
 		} else {
 			// console.log("ad blocking turned off");
@@ -309,15 +332,17 @@ function clearAds () {
 		
 		// Remove posts that are "Events recommended for you"
 		if (blockevents && textList.includes('Events recommended for you')) {
-			post.remove()
-			console.log("CleanUp LinkedIn: removed a post")
+			post.remove();
+			CULhits++;
+			console.log("CleanUp LinkedIn: removed a post");
 		} else {
 			// console.log("ad blocking turned off");
 		};
 		
 		if (blockads && (textList.includes('LinkedIn Ads') || textList.includes('Optimize for ad results') || textList.includes('Unlock more insights') )) {
-			post.remove()
-			console.log("CleanUp LinkedIn: removed a post")
+			post.remove();
+			CULhits++;
+			console.log("CleanUp LinkedIn: removed a post");
 		} else {
 			// console.log("ad blocking turned off");
 		};
@@ -336,6 +361,7 @@ function clearAds () {
 			let postSub3 = postPromo3.textContent.trim();
 			if (postSub3 == "Add to your feed") {
 				post.style.display = "none";
+				CULhits++;
 				console.log("cleared an `Are you hiring` post");
 			};
 		} catch (error) {
@@ -359,6 +385,12 @@ function clearAds () {
 			console.log(error);
 		};
 	}*/
+	
+	let hits = CULhits;
+	console.log("Setting hits as: "+hits);
+	chrome.storage.sync.set({ hits });
+	
+	
 	
 };
 

@@ -6,6 +6,15 @@ function installVars() {
 	let enabled = true;
 	let feed_reminder = true;
 	let level = "basic";
+	let hits = 0;
+	let clean = {};
+		clean.level = "basic";
+		clean.item = {};
+			clean.item.ads = true;
+			clean.item.jobs = true;
+			clean.item.events = true;
+		clean.custom = {};
+	let cleanDefault = clean;
 
 	// default custom in-feed values for first install
 	let block_ads = true;
@@ -27,6 +36,8 @@ function installVars() {
 			chrome.storage.sync.set({ enabled });
 			chrome.storage.sync.set({ feed_reminder });
 			chrome.storage.sync.set({ level });
+			chrome.storage.sync.set({ hits });
+			chrome.storage.sync.set({ clean });
 			
 			chrome.storage.sync.set({ block_ads });
 			chrome.storage.sync.set({ block_jobs });
@@ -52,6 +63,19 @@ function installVars() {
 			let loadEl = document.getElementById("loading")
 			loadEl.style.display = "none"
 		}
+	});
+	
+	chrome.storage.sync.get("hits", ({ hits }) => {
+		if (hits === null) {
+			let hits = 0;
+			chrome.storage.sync.set({ hits });
+		};
+	});
+	chrome.storage.sync.get("clean", ({ clean }) => {
+		if (clean == null) {
+			clean = cleanDefault;
+			chrome.storage.sync.set({ clean });
+		};
 	});
 	
 	
