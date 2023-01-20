@@ -14,10 +14,37 @@ chrome.storage.sync.get("hits",  ({ hits  }) => {
 	console.info(CULhits);
 })
 
+// add custom event that fires when the URL changes
+// https://stackoverflow.com/questions/6390341/how-to-detect-if-url-has-changed-after-hash-in-javascript
+
+(() => {
+    let oldPushState = history.pushState;
+    history.pushState = function pushState() {
+        let ret = oldPushState.apply(this, arguments);
+        window.dispatchEvent(new Event('pushstate'));
+        window.dispatchEvent(new Event('locationchange'));
+        return ret;
+    };
+
+    let oldReplaceState = history.replaceState;
+    history.replaceState = function replaceState() {
+        let ret = oldReplaceState.apply(this, arguments);
+        window.dispatchEvent(new Event('replacestate'));
+        window.dispatchEvent(new Event('locationchange'));
+        return ret;
+    };
+
+    window.addEventListener('popstate', () => {
+        window.dispatchEvent(new Event('locationchange'));
+    });
+})();
+
 
 window.addEventListener('locationchange', function () {
     console.log('CleanUp Linkedin: location changed!');
 });
+
+// ==========================================================================
 
 
 // list of vars for blocking feed items (in the loop)
@@ -223,6 +250,13 @@ function clearAds () {
 	
 	
 	// ==================================================================
+	// try and remove "are you hiring" at top of feed
+	// let allText = post.textContent.replace(/\s/g,'')
+	
+	
+	
+	
+	// ==================================================================
 	// TRY PREMIUM REMOVE
 	// remove the ad to try premium
 	if (blocktrypremium) {
@@ -339,7 +373,12 @@ function clearAds () {
 			// console.log("ad blocking turned off");
 		};
 		
-		if (blockads && (textList.includes('LinkedIn Ads') || textList.includes('Optimize for ad results') || textList.includes('Unlock more insights') )) {
+		if (blockads && (
+			textList.includes('LinkedIn Ads') ||
+			textList.includes('Optimize for ad results') ||
+			textList.includes('Unlock more insights') ||
+			textList.includes('Try Lead Gen Forms')
+		)) {
 			post.remove();
 			CULhits++;
 			console.log("CleanUp LinkedIn: removed a post");
