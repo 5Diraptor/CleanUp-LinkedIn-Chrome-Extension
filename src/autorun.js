@@ -14,37 +14,7 @@ chrome.storage.sync.get("hits",  ({ hits  }) => {
 	console.info(CULhits);
 })
 
-// add custom event that fires when the URL changes
-// https://stackoverflow.com/questions/6390341/how-to-detect-if-url-has-changed-after-hash-in-javascript
 
-(() => {
-    let oldPushState = history.pushState;
-    history.pushState = function pushState() {
-        let ret = oldPushState.apply(this, arguments);
-        window.dispatchEvent(new Event('pushstate'));
-        window.dispatchEvent(new Event('locationchange'));
-        return ret;
-    };
-
-    let oldReplaceState = history.replaceState;
-    history.replaceState = function replaceState() {
-        let ret = oldReplaceState.apply(this, arguments);
-        window.dispatchEvent(new Event('replacestate'));
-        window.dispatchEvent(new Event('locationchange'));
-        return ret;
-    };
-
-    window.addEventListener('popstate', () => {
-        window.dispatchEvent(new Event('locationchange'));
-    });
-})();
-
-
-window.addEventListener('locationchange', function () {
-    console.log('CleanUp Linkedin: location changed!');
-});
-
-// ==========================================================================
 
 
 // list of vars for blocking feed items (in the loop)
@@ -259,23 +229,32 @@ function clearAds () {
 	// ==================================================================
 	// TRY PREMIUM REMOVE
 	// remove the ad to try premium
+	
+	var sidebarleft = document.querySelector('.scaffold-layout__sidebar')
+	
 	if (blocktrypremium) {
 		// console.log("try premium")
-		let sidebar = document.querySelector('.scaffold-layout__sidebar')
-		// console.info(sidebar)
-		if (sidebar.children[0].children[2]) {
+		
+		// console.info(sidebarleft)
+		if (sidebarleft.children[0].children[2]) {
 			
-			let textTest = sidebar.children[0].children[2].textContent.trim()
+			let textTest = sidebarleft.children[0].children[2].textContent.trim()
 			
 			if (textTest.search("Premium") >= 0) {
-				let premSB = sidebar.children[0].children[2]
+				let premSB = sidebarleft.children[0].children[2]
 				console.log(premSB)
-				let myItems = sidebar.children[0].children[3]
+				let myItems = sidebarleft.children[0].children[3]
 				console.log(myItems)
+				
 				let savedItems = myItems.cloneNode(true)
-				savedItems.children[0].textContent = "Saved Items"
+				savedItems.children[0].textContent = "Saved Posts"
 				savedItems.href = "/my-items/saved-posts/"
-				myItems.after(savedItems)
+				
+				let myLearning = myItems.cloneNode(true)
+				myLearning.children[0].textContent = "My Learning"
+				myLearning.href = "/my-items/learning/"
+				
+				myItems.after(savedItems, myLearning)
 				
 				// console.info(premSB)
 				premSB.remove()
