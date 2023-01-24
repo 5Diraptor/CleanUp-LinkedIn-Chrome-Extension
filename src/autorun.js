@@ -127,7 +127,7 @@ chrome.storage.sync.get("enabled", ({ enabled }) => {
 		var observer = new MutationObserver(function(mutations, observer) {
 			// fired when a mutation occurs
 			// console.log(mutations, observer);
-			console.log("CleanUp LinkedIn: DOM mutated, checking for unwanted items.")
+			// console.log("CleanUp LinkedIn: DOM mutated, checking for unwanted items.")
 			clearAds();
 			// ...
 		});
@@ -181,7 +181,10 @@ chrome.storage.sync.get("enabled", ({ enabled }) => {
 
 	
 function clearAds () {
-	console.log("CleanUp LinkedIn: Analysing new posts and removing if not wanted")
+	
+	let CULhitsOld = CULhits;
+	
+	// console.log("CleanUp LinkedIn: Analysing new posts and removing if not wanted")
 	var valuesdump = [cLevel, blockads, blockjobs, blockaddfeed, blockevents, blockfreshpps, blockhiring, blockstartpost, blockall, reminder];
 	// console.info(valuesdump)
 
@@ -404,9 +407,11 @@ function clearAds () {
 		};
 	}*/
 	
-	let hits = CULhits;
-	console.log("Setting hits as: "+hits);
-	chrome.storage.sync.set({ hits });
+	if (CULhitsOld != CULhits) {
+		let hits = CULhits;
+		console.log("Setting hits as: "+hits);
+		chrome.storage.sync.set({ hits });
+	}
 	
 	
 	
