@@ -35,14 +35,13 @@
 			</div>
 			
 			<div id="chassis-s" class="chassis-body">
-			
-				<div class="fuseOptWrapper" id="optEnable">
-					<span class="fuseOptText">Clean my LinkedIn feed <img class="icon helpTextTrigger" id="jsEnableImg" src="/assets/qm.svg"></span>
-					<div><p class="helpText" id="jsEnableHelp">Enable or disable LinkedIn feed cleaning.</p></div>
-				</div>
 				
-				<span>CleanUp Level:</span>
+				<span>Choose your CleanUp level:</span>
 				<div class="fuseOptWrapper" id="optLevel">
+					<input class="fuseOptRdo" value="off" id="optLevel_off" type="radio" name="cleanLevel">
+					<span class="fuseOptText">Off<img class="icon helpTextTrigger" id="jsOffImg" src="/assets/qm.svg"></span>
+					<div><p class="helpText" id="jsOffHelp">Pause CleanUp Linkedin so that no rules are running.</p></div>
+					
 					<input class="fuseOptRdo" value="basic" id="optLevel_basic" type="radio" name="cleanLevel">
 					<span class="fuseOptText">Basic CleanUp <img class="icon helpTextTrigger" id="jsBasicImg" src="/assets/qm.svg"></span>
 					<div><p class="helpText" id="jsBasicHelp">Basic level only removes promoted posts, ads, & fresh perspectives.</p></div>
@@ -57,12 +56,12 @@
 					
 					<input class="fuseOptRdo" value="custom" id="optLevel_custom" type="radio" name="cleanLevel">
 					<span class="fuseOptText">Custom CleanUp <img class="icon helpTextTrigger" id="jsCustomImg" src="/assets/qm.svg"></span>
-					<div><p class="helpText" id="jsCustomHelp">Use your custom settings.  Use the link below to view and amend these.</p></div>
+					<div><p class="helpText" id="jsCustomHelp">Use your custom settings.  Use the "Custom options" to view and amend these.</p></div>
 				</div>
 				
 				<div class="fuseOptWrapper" >
 					<span class="fuseOptText">
-						<a href="/options.html" target="_blank">Options page</a>
+						<a href="/options.html" target="_blank">Custom options</a>
 					</span>
 					<span class="fuseOptText">
 						<a href="https://5diraptor.com/CleanUp_LinkedIn" target="_blank">Learn more</a>

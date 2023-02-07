@@ -55,6 +55,8 @@ chrome.storage.sync.get("installed", ({ installed }) => {
 
 
 
+		/*
+		
 		chrome.storage.sync.get("block_all", ({ block_all }) => {
 			addOptionBox("optLiEntire", "optChkblall");
 			let checkEl = document.getElementById("optChkblall");
@@ -150,6 +152,8 @@ chrome.storage.sync.get("installed", ({ installed }) => {
 				chrome.storage.sync.set({ feed_reminder });
 			});
 		});
+		
+		*/
 
 
 

@@ -1,3 +1,21 @@
+// Listen to changes to chrome storage and update window if mismatched =====
+var culLevel = null;
+chrome.storage.onChanged.addListener(function (changes, namespace) {
+	
+	let change = false;
+
+	if (changes.level != undefined) {
+		if (changes.level.newValue != culLevel) {
+			console.log("Level has changed and is different");
+			window.location.href="popup.html";
+		} else {
+			console.log("Level has changed and matches");
+		};
+	};
+	culLevel = changes.level;
+});
+
+
 chrome.storage.sync.get("installed", ({ installed }) => {
 	
 	// Unless the popup is installed, don't run anything ===========================
@@ -25,8 +43,7 @@ chrome.storage.sync.get("installed", ({ installed }) => {
 			console.info(clean);
 		});
 		chrome.storage.sync.get("hits", ({ hits }) => {
-			console.log("hits");
-			console.info(hits);
+			console.log("hits: "+hits);
 		});
 		// =========================================================================
 		
@@ -34,11 +51,12 @@ chrome.storage.sync.get("installed", ({ installed }) => {
 		
 		// Listen to changes to chrome storage and update window if mismatched =====
 		
-		chrome.storage.onChanged.addListener(function (changes, namespace) {
+		//chrome.storage.onChanged.addListener(function (changes, namespace) {
 			
-			let change = false;
+			//let change = false;
 			//console.info(changes);
 			
+			/*
 			if (changes.enabled != undefined) { 
 				if (changes.enabled.newValue != optEnabled) {
 					console.log("Level has changed and is different");
@@ -46,8 +64,8 @@ chrome.storage.sync.get("installed", ({ installed }) => {
 					console.log("Level has changed and matches");
 					change = true;
 				};
-			};
-			
+			}; */
+			/*
 			if (changes.level != undefined) {
 				if (changes.level.newValue != optLevel) {
 					console.log("Level has changed and is different");
@@ -55,29 +73,31 @@ chrome.storage.sync.get("installed", ({ installed }) => {
 					console.log("Level has changed and matches");
 					change = true;
 				};
-			};
+			};*/
 			
+			/*
 			for (let [key, { oldValue, newValue }] of Object.entries(changes)) {
 				/* console.log(
 					`Storage key "${key}" in namespace "${namespace}" changed.`,
 					`Old value was "${oldValue}", new value is "${newValue}".`
-				); */
+				); * /
 				// console.log("key:"+key+" ns: "+namespace+" ov: "+oldValue+" nv: "+newValue);
 				freshinstall++;
 				if (freshinstall >8 ) { document.getElementById("loading").style.display = "none"; } ;
-			}
+			} */
 			
-			if (change) {
-				window.location.href="popup.html";
-			};
-		});
+			//if (change) {
+			//	window.location.href="popup.html";
+			//};
+		//});
 		
 		// =========================================================================
 		
 		
 		
 		// Add option boxes onces the chrome storage var has loaded ================
-
+		
+		/*
 		function addOptionBox(parentid, checkboxid) {
 			var parent = document.getElementById(parentid);
 			let newInput = document.createElement('input');
@@ -88,7 +108,8 @@ chrome.storage.sync.get("installed", ({ installed }) => {
 			//parent.insertBefore(newInput, parent.firstChild);
 			parent.prepend(newInput);
 		};
-
+		
+		
 		chrome.storage.sync.get("enabled", ({ enabled }) => {
 			addOptionBox("optEnable", "optChkEnable");
 			let checkEl = document.getElementById("optChkEnable");
@@ -99,6 +120,9 @@ chrome.storage.sync.get("installed", ({ installed }) => {
 				chrome.storage.sync.set({ enabled });
 			});
 		});
+		*/
+		
+		// select correct level once var loaded
 
 		chrome.storage.sync.get("level", ({ level }) => {
 			if (level != undefined) {
@@ -196,7 +220,7 @@ chrome.storage.sync.get("installed", ({ installed }) => {
 	}
 	
 	
-	// Script for showing and hiding the help text popups ====================
+	// Script to get latest qty of cleaned items and update popup =============
 	
 	var hitEl = document.getElementById("ch-hit-count");
 	chrome.storage.sync.get("hits", ({ hits }) => {

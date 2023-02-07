@@ -213,7 +213,7 @@ a:hover {
 }
 
 #ch-tab-wrapper .activetab {
-	background-color: #ffffff30;
+	background-color: #404346;
 }
 
 #reloadspan {
@@ -223,7 +223,7 @@ a:hover {
 
 #ch-hit-count {
 	padding:10px;
-	background-color:#ffffff30;
+	background-color:#404346;
 	margin:5px 0 10px;
 	border-radius: 5px;
 }
@@ -244,7 +244,7 @@ a:hover {
 	width: 148px;
 	text-align: center;
 	padding: 5px;
-	background-color: #ffffff10;
+	background-color: #202326;
 	border-radius: 5px 5px 0 0;
 	margin:0 0 0 4px;
 }
@@ -253,18 +253,24 @@ a:hover {
 	margin: 0;
 }
 
+#ch-tab-wrapper > div:hover:not(.activetab) {
+	background-color: #0a66c2;
+	-webkit-box-shadow: inset 0 0 8px 2px #202326;
+	-moz-box-shadow: inset 0 0 8px 2px #202326;
+	box-shadow: inset 0 0 8px 2px #202326;
+}
 
 #chassis .chassis-body {
 	padding: 10px;
 	border-radius: 0 0 10px 10px;
-	background-color: #ffffff30;
+	background-color: #404346;
 	display: none;
 }
 
 #chassis .chassis-wrapper {
 	padding: 10px;
 	border-radius: 10px;
-	background-color: #ffffff30;
+	background-color: #404346;
 }
 
 
