@@ -137,13 +137,15 @@ function cleanPageFeed() {
 	info(mainCol)
 	info(rghtCol)*/
 	
+	var remEl = document.getElementById("cleanUp_LinkedIn_feed_reminder_wrapper");
+	if (remEl == null) {
+		let reminderEl = '<div id="cleanUp_LinkedIn_feed_reminder_wrapper" class="launchpad-v2 artdeco-card mb2" style="border-radius: 10px; padding: 15px; background-color: white; margin: 0 0 10px;"><img src="chrome-extension://nnnfnopmhgdpnnlbpnjkplimibbihdop/assets/logo128.png" style="height: 24px; width:24px; margin:0 5px; float:left; object-fit:contain;">Enjoy your uncluttered feed, courtesy of CleanUp LinkedIn!</div>';
+		
+		rghtCol.insertAdjacentHTML('beforeend', reminderEl);
+	};
 	
-	let reminderEl = '<div id="cleanUp_LinkedIn_feed_reminder_wrapper" class="launchpad-v2 artdeco-card mb2" style="border-radius: 10px; padding: 15px; background-color: white; margin: 0 0 10px;"><img src="chrome-extension://nnnfnopmhgdpnnlbpnjkplimibbihdop/assets/logo128.png" style="height: 24px; width:24px; margin:0 5px; float:left; object-fit:contain;">Enjoy your uncluttered feed, courtesy of CleanUp LinkedIn!</div>';
 	
-	// main.children[0].insertAdjacentHTML('afterbegin', reminderEl);
-	mainCol.insertAdjacentHTML('afterbegin', reminderEl);
-	
-	if (postsParent && false) {
+	if (postsParent) {
 		for (var i = 0; i < postsParent.children.length; i++) {
 			let post = postsParent.children[i];
 			info(post)
@@ -151,6 +153,8 @@ function cleanPageFeed() {
 			
 			
 			let allText = post.textContent.replace(/\s/g,'')
+			
+			
 				
 			// if post has already been evaluated, or there is no text, skip this post
 			if (allText == "" || post.classList.contains("evaluated_by_CleanUp_LinkedIn")) {
@@ -159,6 +163,12 @@ function cleanPageFeed() {
 				post.classList.add("evaluated_by_CleanUp_LinkedIn")
 			};
 			
+			allText = post.textContent.replace(/\s/g,' ')
+			let textList = allText.replace(/\s{2,}/g,'[|]')
+			textList = textList.split('[|]')
+			
+			log("This posts allText is:");
+			info(textList)
 			
 		};
 	};
