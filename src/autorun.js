@@ -60,7 +60,6 @@ chrome.storage.sync.get("hits",  ({ hits  }) => {
 
 
 
-
 //=================================================================================================
 // Run the CleanUp functions whenever the DOM Tree mutates.
 //=================================================================================================
@@ -72,7 +71,7 @@ MutationObserver = window.MutationObserver || window.WebKitMutationObserver;
 var observer = new MutationObserver(function(mutations, observer) {
 	// fired when a mutation occurs
 	// log(mutations, observer);
-	log("CleanUp LinkedIn: DOM mutated, checking for unwanted items.")
+	// log("CleanUp LinkedIn: DOM mutated, checking for unwanted items.")
 	cleanUpByUrl();
 	// ...
 });
@@ -97,7 +96,7 @@ observer.observe(document, {
 function cleanUpByUrl() {
 	if (CULhits !== false && CULclean !== false) { // only run CleanUp functions if the Chrome storage variables have been loaded
 		
-		log("starting clean by url fctn");
+		// log("starting clean by url fctn");
 		
 		let culNewUrl = window.location.href;
 		
@@ -115,8 +114,11 @@ function cleanUpByUrl() {
 // List of possible cleanup functions available depending on which page is loaded
 //=================================================================================================
 
+var showRecentFeed = true;
+
 
 function cleanPageFeed() {
+	
 	
 	// ==================================================================
 	// Setup - need to positively identify certain elements
@@ -139,7 +141,9 @@ function cleanPageFeed() {
 	
 	var remEl = document.getElementById("cleanUp_LinkedIn_feed_reminder_wrapper");
 	if (remEl == null) {
-		let reminderEl = '<div id="cleanUp_LinkedIn_feed_reminder_wrapper" class="launchpad-v2 artdeco-card mb2" style="border-radius: 10px; padding: 15px; background-color: white; margin: 0 0 10px;"><img src="chrome-extension://nnnfnopmhgdpnnlbpnjkplimibbihdop/assets/logo128.png" style="height: 24px; width:24px; margin:0 5px; float:left; object-fit:contain;">Enjoy your uncluttered feed, courtesy of CleanUp LinkedIn!</div>';
+		let reminderEl = '<div id="cleanUp_LinkedIn_feed_reminder_wrapper" class="scaffold-layout__sticky scaffold-layout__sticky--is-active scaffold-layout__sticky--lg " style="top: 250px; border-radius: 10px; padding: 15px; background-color: white; margin: 0 0 10px;"><img src="chrome-extension://nnnfnopmhgdpnnlbpnjkplimibbihdop/assets/logo128.png" style="height: 24px; width:24px; margin:0 5px; float:left; object-fit:contain;">Enjoy your uncluttered feed, courtesy of CleanUp LinkedIn!</div>';
+		
+		document.getElementsByTagName("head")[0].insertAdjacentHTML('beforeend', '<style> .cleanup-linkedin-remove-post, .cleanup-linkedin-remove-post * {background: red !important; }; </style>');
 		
 		rghtCol.insertAdjacentHTML('beforeend', reminderEl);
 	};
@@ -148,7 +152,7 @@ function cleanPageFeed() {
 	if (postsParent) {
 		for (var i = 0; i < postsParent.children.length; i++) {
 			let post = postsParent.children[i];
-			info(post)
+			// info(post)
 			
 			
 			
@@ -167,8 +171,54 @@ function cleanPageFeed() {
 			let textList = allText.replace(/\s{2,}/g,'[|]')
 			textList = textList.split('[|]')
 			
-			log("This posts allText is:");
+			//log("This posts allText is:");
 			info(textList)
+			
+			if (textList.length < 11) {
+				log("Not enough text, likely spam");
+				// post.classList.add("cleanup-linkedin-remove-post");
+				post.remove();
+				break;
+			};
+			
+			
+			for (let ii=0; ii < textList.length; ii++) {
+				
+				let txt = textList[ii];
+				
+				if (txt.search(/(^\s*Promoted.*Promoted\s*$)|(^\s*Promoted\s*$)/gm) != -1) {
+					log("Found text: "+txt);
+					// post.classList.add("cleanup-linkedin-remove-post");
+					post.remove();
+					break;
+				};
+				
+				
+				if (
+					txt.search(/^\s*Recommended for you\s*$/gm) != -1
+					|| txt.search(/^\s*Suggested collaborative article\s*$/gm) != -1
+					|| txt.search(/^\s*Jobs recommended for you\s*$/gm) != -1
+					|| txt.search(/^\s*Track conversions and leads\s*$/gm) != -1
+					|| txt.search(/^\s*Start your saved course\s*$/gm) != -1
+					|| txt.search(/^\s*Events recommended for you\s*$/gm) != -1
+					|| txt.search(/^\s*Optimize for ad results\s*$/gm) != -1
+					|| txt.search(/^\s*Unlock more insights\s*$/gm) != -1
+					|| txt.search(/^\s*Try Lead Gen Forms\s*$/gm) != -1
+					|| txt.search(/^\s*Attract more customers\s*$/gm) != -1
+					|| txt.search(/^\s*Measure what matters\s*$/gm) != -1
+					|| txt.search(/^\s*Nurture your audience\s*$/gm) != -1
+					|| txt.search(/^\s*Sharpen your skills\s*$/gm) != -1
+					|| txt.search(/^\s*Events recommended for you\s*$/gm) != -1
+					|| txt.search(/^\s*Scale your business\s*$/gm) != -1
+				) {
+					log("Found text: "+txt);
+					// post.classList.add("cleanup-linkedin-remove-post");
+					post.remove();
+					break;
+				};
+				
+				
+			};
 			
 		};
 	};
